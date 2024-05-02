@@ -30,8 +30,22 @@ public class MyRestController {
     }
 
     @PostMapping("/employees")
-    public Employee addNewEmployee(@RequestBody Employee employee) {
+    public Employee addNewEmployee(@RequestBody Employee employee){
         return employeeService.saveEmployee(employee);
+    }
+
+    @PutMapping("/employees")
+    public Employee updateEmployee(@RequestBody Employee employee){
+        return employeeService.saveEmployee(employee);
+    }
+
+    @DeleteMapping("employees/{id}")
+    public String deleteEmployee(@PathVariable("id") int id) {
+        int res = employeeService.deleteEmployee(id);
+        if (res == 0) {
+            throw new NoSuchEmployeeException("Employee with id: " + id + " not exist");
+        }
+        return "Employee with id: " + id + " was deleted";
     }
 
 }

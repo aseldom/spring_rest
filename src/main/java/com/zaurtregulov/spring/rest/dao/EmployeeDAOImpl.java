@@ -34,10 +34,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
-    public void deleteEmployee(int id) {
+    public int deleteEmployee(int id) {
         Session currentSession = sessionFactory.getCurrentSession();
         MutationQuery mutationQuery = currentSession.createMutationQuery("delete from Employee where id=:empId")
                 .setParameter("empId", id);
-        mutationQuery.executeUpdate();
+        return mutationQuery.executeUpdate();
     }
 }
