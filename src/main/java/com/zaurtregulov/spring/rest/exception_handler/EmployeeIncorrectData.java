@@ -3,8 +3,6 @@ package com.zaurtregulov.spring.rest.exception_handler;
 public class EmployeeIncorrectData {
     private String info;
 
-    public EmployeeIncorrectData() { }
-
     public String getInfo() {
         return info;
     }
