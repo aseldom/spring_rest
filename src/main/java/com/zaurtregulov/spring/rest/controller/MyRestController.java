@@ -1,12 +1,13 @@
 package com.zaurtregulov.spring.rest.controller;
 
 import com.zaurtregulov.spring.rest.entity.Employee;
+import com.zaurtregulov.spring.rest.exception_handler.EmployeeIncorrectData;
+import com.zaurtregulov.spring.rest.exception_handler.NoSuchEmployeeException;
 import com.zaurtregulov.spring.rest.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,7 +25,18 @@ public class MyRestController {
 
     @GetMapping("/employees/{id}")
     public Employee getEmployee(@PathVariable("id") int id){
-        return employeeService.getEmployee(id);
+        Employee employee = employeeService.getEmployee(id);
+        if(employee == null) {
+            throw new NoSuchEmployeeException("No such employee with id = " + id);
+        }
+        return employee;
 
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<EmployeeIncorrectData> handleException(NoSuchEmployeeException exception) {
+        EmployeeIncorrectData data = new EmployeeIncorrectData();
+        data.setInfo(exception.getMessage());
+        return new ResponseEntity<>(data, HttpStatus.NOT_FOUND);
     }
 }
