@@ -22,9 +22,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
-    public void saveEmployee(Employee employee) {
+    public Employee saveEmployee(Employee employee) {
         Session currentSession = sessionFactory.getCurrentSession();
-        currentSession.merge("Employee", employee);
+        return currentSession.merge("Employee", employee);
     }
 
     @Override

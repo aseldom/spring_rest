@@ -4,10 +4,7 @@ import com.zaurtregulov.spring.rest.entity.Employee;
 import com.zaurtregulov.spring.rest.exception_handler.NoSuchEmployeeException;
 import com.zaurtregulov.spring.rest.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,7 +27,11 @@ public class MyRestController {
             throw new NoSuchEmployeeException("No such employee with id = " + id);
         }
         return employee;
+    }
 
+    @PostMapping("/employees")
+    public Employee addNewEmployee(@RequestBody Employee employee) {
+        return employeeService.saveEmployee(employee);
     }
 
 }
